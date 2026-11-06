@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 142" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ladder Freeze Tag - Medal of Honor Allied Assault - Chile">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#27384a"/><stop offset=".55" stop-color="#9a6a4c"/><stop offset=".82" stop-color="#e8a64a"/><stop offset="1" stop-color="#f3c36f"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff2c4" stop-opacity=".95"/><stop offset="1" stop-color="#fff2c4" stop-opacity="0"/></radialGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000" stop-opacity=".18"/><stop offset=".25" stop-color="#fff" stop-opacity=".12"/><stop offset=".5" stop-color="#000" stop-opacity=".16"/><stop offset=".75" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity=".2"/>
+    </linearGradient>
+    <clipPath id="flagclip"><path d="M704,22 C730,10 752,34 782,22 S838,10 864,22 L864,122 C838,110 812,134 782,122 S730,110 704,122 Z"/></clipPath>
+  </defs>
+  <rect width="920" height="142" fill="url(#sky)"/>
+  <circle cx="470" cy="104" r="120" fill="url(#sun)"/>
+  <!-- barcos lejanos -->
+  <g fill="#3b3f46" opacity=".75"><path d="M330,104 h46 l-6,6 h-34 z M344,98 h12 v6 h-12 z"/><path d="M560,106 h60 l-7,6 h-46 z M580,99 h16 v7 h-16 z"/></g>
+  <!-- costa y playa -->
+  <path d="M0,112 C150,104 300,114 470,108 S800,104 920,112 L920,142 L0,142 Z" fill="#3a3524"/>
+  <path d="M0,124 C200,118 400,128 600,122 S820,120 920,126 L920,142 L0,142 Z" fill="#26231a"/>
+  <!-- obstáculos en la playa -->
+  <g stroke="#14120c" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M250,128 l14,-14 M264,128 l-14,-14 M257,130 v-18"/>
+    <path d="M400,126 l12,-12 M412,126 l-12,-12 M406,128 v-16"/>
+    <path d="M560,128 l14,-14 M574,128 l-14,-14 M567,130 v-18"/>
+  </g>
+  <!-- soldados (siluetas originales) -->
+  <g fill="#12150d">
+    <g transform="translate(150,10)">
+      <path d="M40,132 L46,92 C48,76 66,68 82,68 C98,68 116,76 118,92 L124,132 Z"/>
+      <path d="M58,56 C58,36 106,36 106,56 L114,60 L50,60 Z"/>
+      <rect x="64" y="58" width="36" height="14" rx="6"/>
+      <path d="M104,100 L172,58" stroke="#12150d" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M100,96 l16,10 l-6,8 l-16,-10 z"/>
+    </g>
+    <g transform="translate(40,34) scale(.78)">
+      <path d="M40,132 L46,92 C48,76 66,68 82,68 C98,68 116,76 118,92 L124,132 Z"/>
+      <path d="M58,56 C58,36 106,36 106,56 L114,60 L50,60 Z"/>
+      <rect x="64" y="58" width="36" height="14" rx="6"/>
+      <path d="M104,100 L170,58" stroke="#12150d" stroke-width="5" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+  <!-- título -->
+  <g text-anchor="middle" font-family="Verdana, Arial, sans-serif" font-weight="700">
+    <text x="490" y="66" font-size="15" fill="#fff" stroke="#1b1b14" stroke-width="4" paint-order="stroke" letter-spacing="2.5">MEDAL OF HONOR: ALLIED ASSAULT</text>
+    <text x="490" y="90" font-size="13" fill="#f3c36f" stroke="#1b1b14" stroke-width="3.5" paint-order="stroke" letter-spacing="4.5">COMUNIDAD MOH:CL</text>
+  </g>
+  <!-- bandera de Chile -->
+  <rect x="696" y="8" width="5" height="134" fill="#2a2a22"/>
+  <circle cx="698.5" cy="8" r="4" fill="#d9b45a"/>
+  <g clip-path="url(#flagclip)">
+    <rect x="700" y="0" width="170" height="140" fill="#fff"/>
+    <rect x="700" y="72" width="170" height="60" fill="#d52b1e"/>
+    <rect x="700" y="0" width="64" height="72" fill="#0039a6"/>
+    <polygon points="732,16 735.6,28 748,28 738,35.5 741.8,47.5 732,40 722.2,47.5 726,35.5 716,28 728.4,28" fill="#fff"/>
+    <rect x="700" y="0" width="170" height="140" fill="url(#shade)"/>
+  </g>
+</svg>

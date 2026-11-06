@@ -1,0 +1,40 @@
+# Plan recomendado: Render de pago (Starter) + disco persistente. La base de datos SQLite queda en el disco.
+# Sube la carpeta del proyecto a un repositorio de GitHub (privado), copia este archivo a la raíz como render.yaml
+# y en Render: New + → Blueprint → elige el repositorio.
+services:
+  - type: web
+    name: ladder-mohaa
+    runtime: node
+    plan: starter
+    buildCommand: npm install --omit=dev
+    startCommand: node restaurar.js && node server.js
+    healthCheckPath: /
+    autoDeploy: true
+    disk:
+      name: ladder-datos
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATA_DIR
+        value: /var/data
+      - key: TRUST_PROXY
+        value: "1"
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: ADMIN_ALIAS
+        sync: false          # Render te lo pregunta al crear: tu alias de superadministrador
+      - key: BACKUP_EVERY_HOURS
+        value: "24"
+      - key: BACKUP_KEEP
+        value: "14"
+      # Copia externa opcional (recomendada): Cloudflare R2 / Backblaze B2 / AWS S3
+      - key: BACKUP_S3_ENDPOINT
+        sync: false
+      - key: BACKUP_S3_BUCKET
+        sync: false
+      - key: BACKUP_S3_KEY_ID
+        sync: false
+      - key: BACKUP_S3_SECRET
+        sync: false

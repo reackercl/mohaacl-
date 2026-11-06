@@ -1,0 +1,31 @@
+# Plan GRATIS (solo para pruebas): el disco de Render gratis se borra en cada reinicio o cuando la página "duerme".
+# Por eso ESTE plan exige la copia externa (BACKUP_S3_*): al arrancar, restaurar.js recupera el último respaldo.
+services:
+  - type: web
+    name: ladder-mohaa
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: node restaurar.js && node server.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATA_DIR
+        value: /tmp/ladder-datos
+      - key: TRUST_PROXY
+        value: "1"
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: ADMIN_ALIAS
+        sync: false
+      - key: BACKUP_EVERY_HOURS
+        value: "1"
+      - key: BACKUP_S3_ENDPOINT
+        sync: false
+      - key: BACKUP_S3_BUCKET
+        sync: false
+      - key: BACKUP_S3_KEY_ID
+        sync: false
+      - key: BACKUP_S3_SECRET
+        sync: false

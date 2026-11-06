@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ladder Freeze Tag</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="frame">
+  <div class="hero" id="hero">
+    <img class="f-img" id="hero-img" alt="Imagen de portada">
+    <div class="hint">Ladder Freeze Tag<small>Espacio para tu imagen</small></div>
+    <div class="adj f-adj" id="hero-adj" hidden>
+      <span>Arrastra la imagen para moverla</span>
+      <label>Zoom <input type="range" class="f-zoom" min="1" max="4" step="0.01" value="1"></label>
+      <button type="button" class="f-reset">Centrar</button>
+      <button type="button" class="f-done">Listo</button>
+    </div>
+    <div class="tools">
+      <input type="file" class="f-file" id="hero-file" accept="image/*">
+      <label for="hero-file">Elegir imagen</label>
+      <button type="button" class="f-adjust">Ajustar</button>
+      <button type="button" class="f-clear">Quitar</button>
+    </div>
+  </div>
+
+  <div class="notice"><span>Organización de la liga. Inscríbete en nuestro foro e infórmate!</span></div>
+
+  <div class="layout">
+    <aside class="side">
+      <form class="login" id="login" aria-label="Ingreso de jugadores">
+        <label for="pid">Player ID:</label>
+        <input type="text" id="pid" autocomplete="username">
+        <label for="pw">Password:</label>
+        <input type="password" id="pw" autocomplete="current-password">
+        <label class="remember" for="rem"><input type="checkbox" id="rem"> Recordar en cada visita</label>
+        <button type="submit">Entrar</button>
+      </form>
+
+      <nav class="menu" aria-label="Menú principal">
+        <div class="menu-group">
+          <h2>Principal</h2>
+          <ul>
+            <li><a href="#inicio" data-view="inicio">Home</a></li>
+            <li><a href="#buscar" data-view="buscar">Buscar</a></li>
+            <li><a href="#noticias" data-view="noticias">Noticias</a></li>
+            <li><a href="#foro">Foro</a></li>
+            <li><a href="#vivo" data-view="vivo">Jugadores en vivo <span class="live-count" id="live-count" hidden></span></a></li>
+            <li><a href="#servers" data-view="servers">Server online</a></li>
+          </ul>
+        </div>
+        <div class="menu-group">
+          <h2>Manejo de jugadores</h2>
+          <ul>
+            <li id="menu-new"><a href="#nuevo-jugador" data-view="nuevo-jugador">Ingreso Nuevo jugador</a></li>
+            <li id="menu-mi-clan" hidden><a href="#mi-clan" data-view="mi-clan">Manejo de cuenta</a></li>
+            <li id="menu-confirm" hidden><a href="#confirmar" data-view="confirmar" id="lb-confirm">Confirmar victoria</a></li>
+            <li id="menu-report" hidden><a href="#reportar" data-view="reportar" id="lb-report">Reportar derrota</a></li>
+            <li id="menu-admin" hidden><a href="#panel" data-view="panel">Administración Ladder</a></li>
+            <li id="menu-links" hidden><a href="#links" data-view="links">Administrar Links</a></li>
+            <li id="menu-backup" hidden><a href="#respaldo" data-view="respaldo">Respaldo de datos</a></li>
+            <li id="menu-validate"><a href="#validar" data-view="validar">Validar cuenta</a></li>
+          </ul>
+        </div>
+        <div class="menu-group">
+          <h2>Juegos</h2>
+          <ul>
+            <li><a href="#mohaa" data-view="mohaa">Medal of Honor</a></li>
+          </ul>
+        </div>
+        <div class="menu-group">
+          <h2>Datos</h2>
+          <ul>
+            <li><a href="#partidos" data-view="partidos">Resultados de partidos</a></li>
+            <li><a href="#jugadores" data-view="jugadores">Lista de jugadores</a></li>
+            <li><a href="#clanes" data-view="clanes">Lista de clanes</a></li>
+            <li><a href="#mapas" data-view="mapas">Lista de mapas</a></li>
+          </ul>
+        </div>
+        <div class="menu-group">
+          <h2>Soporte</h2>
+          <ul>
+            <li><a href="#staff">Lista del Staff</a></li>
+            <li><a href="#descargas" data-view="descargas">Descargas</a></li>
+            <li><a href="#reglas">Reglas del ladder</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="banner adjframe" id="banner"><img class="f-img" src="/img/banner.jpg" alt="Ladder MohaaChile - Comunidad MOH:CL" width="1280" height="213">
+        <div class="adj f-adj" hidden>
+          <span>Arrastra la imagen para moverla</span>
+          <label>Zoom <input type="range" class="f-zoom" min="1" max="4" step="0.01" value="1"></label>
+          <button type="button" class="f-reset">Centrar</button>
+          <button type="button" class="f-done">Listo</button>
+        </div>
+        <div class="tools">
+          <input type="file" class="f-file" id="banner-file" accept="image/*">
+          <label for="banner-file">Elegir imagen</label>
+          <button type="button" class="f-adjust">Ajustar</button>
+          <button type="button" class="f-clear">Original</button>
+        </div>
+      </div>
+
+      <!-- Inicio -->
+      <section class="view" id="view-inicio" aria-label="Inicio">
+        <div class="home">
+          <div class="stack">
+            <section class="card">
+              <h3>Noticias</h3>
+              <ul id="home-news"><li class="none">Aún no hay noticias.</li></ul>
+            </section>
+            <section class="card">
+              <h3>Partidos recientes</h3>
+              <ul id="home-matches">
+                <li class="none">Aún no hay partidos jugados.</li>
+              </ul>
+            </section>
+            <section class="card">
+              <h3>Partidos siguientes</h3>
+              <ul>
+                <li class="none">Aún no hay partidos programados.</li>
+              </ul>
+            </section>
+            <section class="card">
+              <h3>Últimas denuncias y sanciones</h3>
+              <ul id="home-complaints">
+                <li class="none">Aún no hay denuncias.</li>
+              </ul>
+              <p class="help">Una denuncia no es una acusación probada: solo cuenta como falta cuando la administración la confirma.</p>
+            </section>
+          </div>
+          <div class="stack">
+            <section class="card stats">
+              <h3>Estadísticas</h3>
+              <ul>
+                <li><span id="stat-guests">0</span> Invitados</li>
+                <li><a href="#online"><span id="stat-online">0</span> Jugadores On Line</a></li>
+                <li><a href="#online"><span id="stat-staff">0</span> Staff Online</a></li>
+                <li><a href="#jugadores"><span id="stat-players">0</span> Jugadores Activos</a></li>
+                <li><a href="#clanes"><span id="stat-clans">0</span> Clanes Activos</a></li>
+                <li><a href="#partidos"><span id="stat-matches">0</span> Partidos hoy</a></li>
+              </ul>
+            </section>
+            <section class="card">
+              <h3>Links</h3>
+              <div class="linksbox" id="links-list"><div class="none">Aún no hay enlaces.</div></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ladder -->
+      <section class="view" id="view-ladder" aria-label="Ladder Freeze Tag" hidden>
+        <div class="boxes">
+          <section class="box info">
+            <h3 id="ladder-title">Freeze Tag • Etapa I</h3>
+            <ul>
+              <li><a href="#mi-clan">Crear o unirse a un clan</a></li>
+              <li><a href="#reglas">Reglas del Ladder</a></li>
+              <li><a href="#mapas" data-view="mapas">Lista de Mapas</a></li>
+            </ul>
+          </section>
+          <section class="box fame">
+            <h3>Ladder Hall Of Fame</h3>
+            <ul>
+              <li><a href="#ganados" data-view="ganados">Mas partidos ganados</a> <span class="arr">»</span> <span id="hof-wins" class="hof">—</span></li>
+              <li><a href="#perdidos" data-view="perdidos">Mas partidos perdidos</a> <span class="arr">»</span> <span id="hof-losses" class="hof">—</span></li>
+              <li><a href="#racha" data-view="racha">Mejor racha</a> <span class="arr">»</span> <span id="hof-streak" class="hof">—</span></li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Lugar</th>
+                <th>Nombre</th>
+                <th colspan="4">Record</th>
+                <th>Ultimo<br>Registro</th>
+                <th>Dias</th>
+                <th>Reporte</th>
+              </tr>
+              <tr>
+                <th>Lugar</th>
+                <th>Clan</th>
+                <th>Ganados</th>
+                <th>Perdidos</th>
+                <th>Racha</th>
+                <th>Gan%</th>
+                <th>Informacion</th>
+                <th>Inac</th>
+                <th>Id</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+            <tfoot id="ladder-foot">
+              <tr><td colspan="9" id="ladder-foot-text">Todavía no hay clanes inscritos en este Ladder</td></tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="pager" id="pager">
+          <div class="pages" id="pages"></div>
+          <div class="note" id="pager-note" hidden><button type="button" class="linkbtn" id="show-unranked">Clickear aca para ver a clanes no rankeados</button></div>
+        </div>
+      </section>
+
+      <!-- Ingreso Nuevo jugador -->
+      <section class="view" id="view-nuevo-jugador" aria-label="Ingreso Nuevo jugador" hidden>
+        <div class="signup">
+          <h3>Comunidad · Creación de cuentas</h3>
+          <form id="signup" novalidate>
+            <div class="fields">
+              <div class="head">Información de jugador (requerida)</div>
+              <label class="r0" for="su-alias">Nombre jugador/Alias</label>
+              <div class="cell r0"><input type="text" id="su-alias" autocomplete="off"></div>
+              <label class="r1" for="su-pass">Contraseña</label>
+              <div class="cell r1"><input type="password" id="su-pass" autocomplete="new-password"></div>
+              <label class="r0" for="su-pass2">Confirmar contraseña</label>
+              <div class="cell r0"><input type="password" id="su-pass2" autocomplete="new-password"></div>
+              <label class="r1" for="su-mail">Email</label>
+              <div class="cell r1"><input type="email" id="su-mail" autocomplete="email"></div>
+              <label class="r0" for="su-mail2">Confirmar email</label>
+              <div class="cell r0"><input type="email" id="su-mail2" autocomplete="off"></div>
+
+              <div class="head">Información opcional</div>
+              <label class="r1" for="su-logo">Logo del jugador</label>
+              <div class="cell r1"><input type="url" id="su-logo" autocomplete="off"></div>
+              <label class="r0" for="su-steam"><img class="soc-ic" src="/img/ic-steam.svg" alt="" width="14" height="14"> Steam</label>
+              <div class="cell r0"><input type="text" id="su-steam" maxlength="200" autocomplete="off" placeholder="usuario o enlace de tu perfil"></div>
+              <label class="r1" for="su-discord"><img class="soc-ic" src="/img/ic-discord.svg" alt="" width="14" height="14"> Discord</label>
+              <div class="cell r1"><input type="text" id="su-discord" maxlength="200" autocomplete="off" placeholder="usuario o enlace de invitación"></div>
+              <label class="r0" for="su-twitch"><img class="soc-ic" src="/img/ic-twitch.svg" alt="" width="14" height="14"> Twitch</label>
+              <div class="cell r0"><input type="text" id="su-twitch" maxlength="200" autocomplete="off" placeholder="usuario o enlace del canal"></div>
+              <label class="r1" for="su-youtube"><img class="soc-ic" src="/img/ic-youtube.svg" alt="" width="14" height="14"> YouTube</label>
+              <div class="cell r1"><input type="text" id="su-youtube" maxlength="200" autocomplete="off" placeholder="@canal o enlace del canal"></div>
+
+              <div class="head">Información varia</div>
+              <label class="check" for="su-age"><input type="checkbox" id="su-age"> Tengo al menos 13 años</label>
+            </div>
+            <div class="actions">
+              <button type="submit">Crear mi cuenta</button>
+              <div class="status" id="su-status" role="status"></div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Perfil de clan -->
+      <section class="view" id="view-clan" aria-label="Perfil del clan" hidden>
+        <div class="card">
+          <h3>Información del clan</h3>
+          <div class="profile-top">
+            <table class="dtable kv">
+              <tr><th colspan="2">Datos del clan</th></tr>
+              <tr><td>Nombre</td><td id="cl-name">—</td></tr>
+              <tr><td>ID del clan</td><td id="cl-id">—</td></tr>
+              <tr><td>Tag</td><td id="cl-tag">—</td></tr>
+              <tr><td>Ladder</td><td id="cl-ladder">Freeze Tag • Etapa I</td></tr>
+              <tr><td>Fecha de ingreso</td><td id="cl-date">—</td></tr>
+              <tr><td>Último partido</td><td id="cl-last">—</td></tr>
+              <tr><td colspan="2" class="c" id="cl-web">—</td></tr>
+            </table>
+            <table class="dtable">
+              <tr><th>Logo del clan</th></tr>
+              <tr><td><div class="logo-box" id="cl-logo">Sin logo</div></td></tr>
+            </table>
+          </div>
+          <div class="status-line" id="cl-msg" role="status"></div>
+        </div>
+
+        <div class="card">
+          <h3>Miembros del clan</h3>
+          <div class="scroll">
+            <table class="dtable teams">
+              <thead><tr><th>Nombre</th><th>Fecha ingreso</th><th>Rango</th><th>Triunfos</th><th>Derrotas</th><th class="lead-only" hidden>Acción</th></tr></thead>
+              <tbody id="cl-members"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" id="cl-manage" hidden>
+          <h3>Administrar clan (solo líder)</h3>
+          <form class="search-form" id="cl-invite-form">
+            <input type="text" id="cl-invite" maxlength="9" inputmode="numeric" aria-label="ID del jugador a invitar" placeholder="ID del jugador a invitar" autocomplete="off">
+            <button type="submit">Invitar</button>
+          </form>
+          <div class="help" id="cl-invited"></div>
+        </div>
+
+        <div class="card">
+          <h3>Estadísticas del ladder</h3>
+          <p class="help" id="cl-unranked" hidden></p>
+          <div class="scroll">
+            <table class="dtable wide stats-t">
+              <tr><th colspan="4">Ranking histórico</th><th colspan="4">Estado</th><th colspan="3">Rachas</th><th>Días</th></tr>
+              <tr><th>Ahora</th><th>Último</th><th>Mejor</th><th>Peor</th><th>Triunfos</th><th>Derrotas</th><th>Juegos</th><th>Triunfos%</th><th>Ahora</th><th>Mejor</th><th>Peor</th><th>Inactivo</th></tr>
+              <tr><td id="cl-h-now">—</td><td id="cl-h-last">—</td><td id="cl-h-best">—</td><td id="cl-h-worst">—</td><td id="cl-w">0</td><td id="cl-l">0</td><td id="cl-g">0</td><td id="cl-p">0%</td><td id="cl-s">0</td><td id="cl-sb">0</td><td id="cl-sw">0</td><td id="cl-d">0</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" id="cl-trophies-card" hidden>
+          <h3>Trofeos</h3>
+          <ul class="trophies" id="cl-trophies"></ul>
+        </div>
+
+        <div class="card">
+          <h3>Partidos recientes</h3>
+          <div class="scroll">
+            <table class="dtable wide teams">
+              <thead><tr><th>Triunfador</th><th>Perdedor</th><th>Fecha de partido</th><th>Estadísticas</th></tr></thead>
+              <tbody id="cl-matches"><tr><td class="none" colspan="4">Aún no hay partidos jugados.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mi clan -->
+      <section class="view" id="view-mi-clan" aria-label="Manejo de cuenta" hidden>
+        <div class="card" id="mc-login">
+          <h3>Manejo de cuenta</h3>
+          <p class="help">Inicia sesión con tu Player ID para ver tu cuenta, crear un clan o aceptar invitaciones.</p>
+        </div>
+
+        <div id="mc-account" hidden>
+          <div id="ac-main">
+          <div class="card">
+            <h3>Información de Jugador</h3>
+            <div class="profile-top">
+              <table class="dtable kv">
+                <tr><th colspan="2">Información de Jugador</th></tr>
+                <tr><td>ID</td><td id="ac-id">—</td></tr>
+                <tr><td>Nombre</td><td id="ac-alias">—</td></tr>
+                <tr><td>Fecha de Ingreso</td><td id="ac-joined">—</td></tr>
+                <tr><td>Victorias</td><td id="ac-w">0</td></tr>
+                <tr><td>Derrotas</td><td id="ac-l">0</td></tr>
+              </table>
+              <table class="dtable">
+                <tr><th>Player Logo</th></tr>
+                <tr><td><div class="logo-box" id="ac-logo">Sin logo</div></td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Información de Equipo</h3>
+            <div class="scroll">
+              <table class="dtable teams">
+                <thead><tr><th>Nombre del Clan</th><th>Ladder</th><th>Status</th><th>Fecha de Ingreso</th><th>Acciones</th></tr></thead>
+                <tbody id="ac-teams"><tr><td class="none" colspan="5">No perteneces a ningún clan.</td></tr></tbody>
+              </table>
+            </div>
+            <form class="match-form" id="ac-recruit" hidden novalidate>
+              <h4 class="sub">Reclutar jugador</h4>
+              <div class="row"><input type="text" id="rc-id" maxlength="9" inputmode="numeric" aria-label="ID del jugador a invitar" placeholder="ID del jugador a invitar" autocomplete="off"></div>
+              <div class="row"><button type="submit">Enviar invitación</button> <button type="button" class="linkbtn" data-ac="close">Cancelar</button></div>
+              <div class="help" id="rc-pending"></div>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3>Comentarios de Administrador</h3>
+            <div class="scroll">
+              <table class="dtable teams">
+                <thead><tr><th>Comentario</th><th>Agregado</th><th>Por</th></tr></thead>
+                <tbody><tr><td class="none" colspan="3">Sin comentarios.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+
+          <div class="card" id="ac-editor" hidden>
+            <h3>Clan Editor</h3>
+            <p class="help">Actualiza la identidad del clan y administra los rangos de los miembros activos.</p>
+            <form id="ed-form" novalidate>
+              <div class="ed-grid">
+                <table class="dtable ed-side">
+                  <tr><th>Logo del clan</th></tr>
+                  <tr><td><div class="logo-box" id="ed-logo-box">Sin logo</div></td></tr>
+                  <tr><td class="c"><b id="ed-side-name">Clan</b><br><span id="ed-side-tag" class="soft"></span></td></tr>
+                </table>
+                <div class="ed-main">
+                  <table class="dtable kv ed-fields">
+                    <tr><th colspan="2">Identidad del clan</th></tr>
+                    <tr><td><label for="ed-name">Nombre del clan</label></td><td><input type="text" id="ed-name" maxlength="30" autocomplete="off"></td></tr>
+                    <tr><td><label for="ed-tag">Etiqueta del clan</label></td><td><input type="text" id="ed-tag" maxlength="8" autocomplete="off"></td></tr>
+                    <tr><td><label for="ed-web">Sitio web</label></td><td><input type="url" id="ed-web" autocomplete="off"></td></tr>
+                    <tr><td><label for="ed-logo">Logo del clan</label></td><td><input type="url" id="ed-logo" autocomplete="off"></td></tr>
+                  </table>
+                  <table class="dtable ed-members">
+                    <thead><tr><th colspan="3">Miembros · Rangos del clan <span class="count" id="ed-count"></span></th></tr></thead>
+                    <tbody id="ed-members"></tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row ed-actions"><button type="submit">Actualizar clan</button> <button type="button" data-ac="close">Volver</button></div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card" id="mc-social" hidden>
+          <h3>Mis redes</h3>
+          <p class="help">Opcional. Escribe tu usuario o pega el enlace de tu perfil; se mostrarán como accesos en tu perfil público.</p>
+          <form id="social-form" novalidate>
+            <table class="dtable kv ed-fields">
+              <tr><td><img class="soc-ic" src="/img/ic-steam.svg" alt="" width="14" height="14"> <label for="so-steam">Steam</label></td><td><input type="text" id="so-steam" maxlength="200" autocomplete="off" placeholder="usuario o https://steamcommunity.com/id/…"></td></tr>
+              <tr><td><img class="soc-ic" src="/img/ic-discord.svg" alt="" width="14" height="14"> <label for="so-discord">Discord</label></td><td><input type="text" id="so-discord" maxlength="200" autocomplete="off" placeholder="usuario o enlace de invitación (discord.gg/…)"></td></tr>
+              <tr><td><img class="soc-ic" src="/img/ic-twitch.svg" alt="" width="14" height="14"> <label for="so-twitch">Twitch</label></td><td><input type="text" id="so-twitch" maxlength="200" autocomplete="off" placeholder="usuario o https://www.twitch.tv/…"></td></tr>
+              <tr><td><img class="soc-ic" src="/img/ic-youtube.svg" alt="" width="14" height="14"> <label for="so-youtube">YouTube</label></td><td><input type="text" id="so-youtube" maxlength="200" autocomplete="off" placeholder="@canal o https://www.youtube.com/…"></td></tr>
+            </table>
+            <div class="actions"><button type="submit">Guardar redes</button></div>
+          </form>
+        </div>
+
+        <div class="card" id="mc-invites" hidden>
+          <h3>Invitaciones recibidas</h3>
+          <ul id="mc-invite-list"></ul>
+        </div>
+
+        <div class="signup" id="mc-create" hidden>
+          <h3>Crear un clan</h3>
+          <form id="clan-form" novalidate>
+            <div class="fields">
+              <div class="head">Datos del clan</div>
+              <label class="r0" for="cf-name">Nombre del clan</label>
+              <div class="cell r0"><input type="text" id="cf-name" maxlength="30" autocomplete="off"></div>
+              <label class="r1" for="cf-tag">Tag (opcional)</label>
+              <div class="cell r1"><input type="text" id="cf-tag" maxlength="8" autocomplete="off"></div>
+              <label class="r0" for="cf-web">Sitio web (opcional)</label>
+              <div class="cell r0"><input type="url" id="cf-web" autocomplete="off"></div>
+              <label class="r1" for="cf-logo">Logo (enlace, opcional)</label>
+              <div class="cell r1"><input type="url" id="cf-logo" autocomplete="off"></div>
+            </div>
+            <div class="actions">
+              <button type="submit">Crear clan</button>
+            </div>
+          </form>
+        </div>
+        <div class="status-line" id="mc-msg" role="status"></div>
+        <div class="card" id="my-notices" hidden></div>
+      </section>
+
+      <!-- Reportar derrota (solo líderes; se abre desde el menú lateral) -->
+      <section class="view" id="view-reportar" aria-label="Reportar derrota" hidden>
+        <div class="card" id="rp-card">
+          <h3>Reportar derrota</h3>
+          <p class="help">Escribe la <b>ID</b> del clan que te ganó (está en el ladder, en la lista de clanes y en el perfil de cada clan). La derrota se suma a tu clan en el momento del reporte. Después el líder del clan ganador debe confirmar el partido para que a su clan le sumen la victoria.</p>
+          <form class="match-form" id="rep-form">
+            <div class="row">
+              <input type="text" id="rep-opp" maxlength="9" inputmode="numeric" aria-label="ID del clan que te ganó" placeholder="ID del clan que te ganó" autocomplete="off">
+            </div>
+            <fieldset class="checks-box">
+              <legend>Miembros de tu clan: marca a quién se le asigna la derrota</legend>
+              <div class="checks" id="rep-players"></div>
+            </fieldset>
+            <fieldset class="checks-box">
+              <legend>Mapas jugados (elige los 2)</legend>
+              <div class="map-pick">
+                <label>Mapa #1 <select id="rep-map1"><option value="">Elige un mapa…</option></select></label>
+                <label>Mapa #2 <select id="rep-map2"><option value="">Elige un mapa…</option></select></label>
+              </div>
+            </fieldset>
+            <textarea id="rep-comment" maxlength="300" rows="2" aria-label="Comentario del partido" placeholder="Comentario del partido (opcional)"></textarea>
+            <div class="row"><button type="submit">Reportar derrota</button></div>
+          </form>
+          <h4 class="sub">Derrotas que reportaste (esperando confirmación)</h4>
+          <div id="mc-reported-list"></div>
+          <div class="status-line" id="rp-msg" role="status"></div>
+        </div>
+      </section>
+
+      <!-- Confirmar victoria (solo líderes; se abre desde el menú lateral) -->
+      <section class="view" id="view-confirmar" aria-label="Confirmar victoria" hidden>
+        <div class="card" id="cf-card">
+          <h3>Confirmar victoria</h3>
+          <p class="help">Aquí aparecen los clanes que reportaron una derrota contra el tuyo. Marca los jugadores de tu clan que recibirán los puntos, deja un comentario si quieres y confirma, o rechaza el reporte si no corresponde.</p>
+          <div id="mc-confirm-list"></div>
+          <div class="status-line" id="cf-msg" role="status"></div>
+        </div>
+      </section>
+
+      <!-- Detalle de un partido -->
+      <section class="view" id="view-partido" aria-label="Detalle del partido" hidden>
+        <div class="card">
+          <h3 id="pm-title">Freeze Tag • Etapa I Partido</h3>
+          <div class="scroll">
+            <table class="dtable pm">
+              <tbody id="pm-body"><tr><td class="none">Cargando...</td></tr></tbody>
+            </table>
+          </div>
+          <div class="status-line" id="pm-msg" role="status"></div>
+          <div class="resend"><a href="#partidos">Volver a Resultados de partidos</a></div>
+        </div>
+      </section>
+
+      <!-- Resultados de partidos -->
+      <section class="view" id="view-partidos" aria-label="Resultados de partidos" hidden>
+        <div class="card">
+          <h3>Ladder Freeze Tag - Ladder Base de datos de partidos</h3>
+          <div class="scroll">
+            <table class="dtable teams">
+              <thead><tr><th>Ganador</th><th>Perdedor</th><th>Fecha partido</th><th>Estadísticas</th><th>Ladder</th></tr></thead>
+              <tbody id="pt-rows"><tr><td class="none" colspan="5">Cargando...</td></tr></tbody>
+              <tfoot><tr><td colspan="5" class="numpager" id="pt-pager"></td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hall of Fame -->
+      <section class="view" id="view-hall" aria-label="Ladder Hall Of Fame" hidden>
+        <div class="card">
+          <h3 id="hall-title">Ladder Hall Of Fame</h3>
+          <div class="scroll">
+            <table class="dtable teams">
+              <thead><tr><th>Lugar</th><th>Clan</th><th id="hall-col">Ganados</th><th>Perdidos</th><th>Racha</th><th>Gan%</th></tr></thead>
+              <tbody id="hall-rows"><tr><td class="none" colspan="6">Cargando...</td></tr></tbody>
+            </table>
+          </div>
+          <div class="resend"><a href="#ladder">Volver al ladder</a></div>
+        </div>
+      </section>
+
+      <!-- Jugadores en vivo -->
+      <section class="view" id="view-vivo" aria-label="Jugadores en vivo" hidden>
+        <div class="card">
+          <h3>Jugadores en vivo</h3>
+          <p class="help" id="lv-note">Aquí aparecen los jugadores que están transmitiendo ahora en Twitch o YouTube, según los canales de su perfil.</p>
+          <div id="lv-list" class="lv-list"><div class="none">Cargando...</div></div>
+        </div>
+      </section>
+
+      <!-- Respaldo de la base de datos -->
+      <section class="view" id="view-respaldo" aria-label="Respaldo de datos" hidden>
+        <div class="card">
+          <h3>Respaldo de datos</h3>
+          <p class="help" id="bk-note">Copia de toda la base de datos (cuentas, clanes, partidos, noticias...). Solo el superadministrador.</p>
+          <div id="bk-box" hidden>
+            <p><button type="button" id="bk-run">Crear respaldo ahora</button> <span class="help" id="bk-msg"></span></p>
+            <p class="help" id="bk-info"></p>
+            <div class="scroll"><table class="dtable"><thead><tr><th>Archivo</th><th>Fecha</th><th>Tamaño</th><th></th></tr></thead><tbody id="bk-rows"></tbody></table></div>
+            <p class="help">Para restaurar: descomprime el archivo (.gz), renómbralo a <code>ladder.db</code>, ponlo en la carpeta de datos con el servidor detenido y arranca de nuevo.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Administrar Links -->
+      <section class="view" id="view-links" aria-label="Administrar Links" hidden>
+        <div class="card">
+          <h3>Administrar Links</h3>
+          <p class="help" id="lk-note">Banners de otras páginas que aparecen en la barra de la izquierda, en el cuadro "Links". Sube la imagen que quieras: se ajusta sola al tamaño del cuadro (unos 100 × 38 px en pantalla).</p>
+          <form id="lk-form" class="nw-form" novalidate>
+            <input type="hidden" id="lk-id" value="">
+            <label>Nombre de la página<input type="text" id="lk-title" maxlength="60" autocomplete="off"></label>
+            <label>Enlace de la página<input type="url" id="lk-url" maxlength="400" autocomplete="off" placeholder="https://…"></label>
+            <label>Imagen (subir archivo)<input type="file" id="lk-file" accept="image/png,image/jpeg,image/gif,image/webp"></label>
+            <label>o enlace de la imagen<input type="url" id="lk-img" maxlength="400" autocomplete="off" placeholder="https://…/banner.png"></label>
+            <div><button type="submit" id="lk-save">Agregar</button> <button type="button" id="lk-new">Nuevo</button> <span class="help" id="lk-msg"></span></div>
+          </form>
+          <div class="scroll"><table class="dtable"><thead><tr><th>Imagen</th><th>Nombre</th><th></th></tr></thead><tbody id="lk-rows"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- Descargas -->
+      <section class="view" id="view-descargas" aria-label="Descargas" hidden>
+        <div class="card">
+          <h3>Descargas</h3>
+          <p class="help">¿Eres nuevo? Aquí está todo lo necesario para empezar a jugar el ladder de MOHAA Chile.</p>
+          <div class="dl-guide">
+            <b>Guía rápida para jugadores nuevos</b>
+            <ol>
+              <li>Instala <b>Medal of Honor: Allied Assault</b> (descarga del juego, abajo).</li>
+              <li>Actualiza el juego con el <b>último parche oficial</b> y, si quieres, instala las expansiones.</li>
+              <li>Instala los <b>mapas y mods</b> del ladder que aparecen en esta lista.</li>
+              <li>Crea tu cuenta en <a href="#nuevo-jugador">Ingreso Nuevo jugador</a> y revisa las <a href="#reglas">reglas del ladder</a>.</li>
+              <li>Entra a un servidor de <a href="#servers">Server online</a> y ¡a jugar!</li>
+            </ol>
+          </div>
+          <div id="dl-list"><div class="none">Cargando...</div></div>
+        </div>
+        <div class="card" id="dl-admin" hidden>
+          <h3>Administrar descargas</h3>
+          <p class="help">Agrega los enlaces de descarga (https://…). Los jugadores los ven agrupados por categoría.</p>
+          <form id="dl-form" class="nw-form" novalidate>
+            <input type="hidden" id="dl-id" value="">
+            <label>Título<input type="text" id="dl-title" maxlength="90" autocomplete="off"></label>
+            <label>Categoría
+              <select id="dl-cat"><option value="juego">Juego</option><option value="parche">Parches</option><option value="expansion">Expansiones</option><option value="mapas">Mapas</option><option value="mod">Mods y ladder</option><option value="herramienta">Herramientas</option></select>
+            </label>
+            <label>Enlace de descarga<input type="url" id="dl-url" maxlength="400" autocomplete="off" placeholder="https://…"></label>
+            <label>Descripción (opcional)<input type="text" id="dl-desc" maxlength="400" autocomplete="off"></label>
+            <label>Versión / tamaño (opcional)<input type="text" id="dl-info" maxlength="40" autocomplete="off" placeholder="v1.12 · 350 MB"></label>
+            <div><button type="submit" id="dl-save">Agregar</button> <button type="button" id="dl-new">Nueva</button> <span class="help" id="dl-msg"></span></div>
+          </form>
+          <div class="scroll"><table class="dtable"><thead><tr><th>Título</th><th>Categoría</th><th></th></tr></thead><tbody id="dl-rows"></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- Archivo de noticias -->
+      <section class="view" id="view-noticias" aria-label="Noticias" hidden>
+        <div class="card" id="nw-list-card">
+          <h3>Noticias</h3>
+          <div class="nw-filter" id="nw-filter">
+            <button type="button" class="linkbtn" data-nwcat="">Todas</button>
+            <button type="button" class="linkbtn" data-nwcat="noticia">Noticias</button>
+            <button type="button" class="linkbtn" data-nwcat="torneo">Torneos</button>
+            <button type="button" class="linkbtn" data-nwcat="juego">Juego</button>
+            <button type="button" class="linkbtn" data-nwcat="importante">Importante</button>
+          </div>
+          <div id="nw-list"><div class="none">Cargando...</div></div>
+          <div class="numpager" id="nw-pager"></div>
+        </div>
+        <div class="card" id="nw-item-card" hidden>
+          <p><a href="#noticias">« Volver al archivo de noticias</a></p>
+          <div id="nw-item"></div>
+        </div>
+        <div class="card" id="nw-admin" hidden>
+          <h3>Panel de noticias <small id="nw-role"></small></h3>
+          <p class="help">Solo lo ven la administración y los encargados de noticias. Publica novedades del juego y nuevos torneos.</p>
+          <form id="nw-form" class="nw-form" novalidate>
+            <input type="hidden" id="nw-id" value="">
+            <label>Título<input type="text" id="nw-title" maxlength="150" autocomplete="off"></label>
+            <label>Tipo
+              <select id="nw-cat"><option value="noticia">Noticia</option><option value="torneo">Torneo</option><option value="juego">Juego</option><option value="importante">Importante</option></select>
+            </label>
+            <label>Fecha del evento (opcional, p. ej. inicio del torneo)<input type="date" id="nw-date"></label>
+            <label>Contenido<textarea id="nw-body" rows="9" maxlength="8000" spellcheck="true"></textarea></label>
+            <label class="inl"><input type="checkbox" id="nw-pub" checked> Publicada (visible para todos)</label>
+            <label class="inl"><input type="checkbox" id="nw-pin"> Fijar arriba</label>
+            <div><button type="submit" id="nw-save">Publicar</button> <button type="button" id="nw-new">Nueva</button> <span class="help" id="nw-msg"></span></div>
+          </form>
+          <h4>Noticias publicadas y borradores</h4>
+          <div class="scroll"><table class="dtable"><thead><tr><th>Título</th><th>Tipo</th><th>Estado</th><th>Fecha</th><th></th></tr></thead><tbody id="nw-rows"><tr><td class="none" colspan="5">Cargando...</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <!-- Server online -->
+      <section class="view" id="view-servers" aria-label="Server online" hidden>
+        <div class="card">
+          <h3>Server online</h3>
+          <p class="help" id="sv-note">Servidores de Medal of Honor: Allied Assault de la comunidad, con su IP y los jugadores conectados. Se actualiza cada minuto.</p>
+          <div class="scroll">
+            <table class="dtable svtable">
+              <thead><tr><th>Servidor</th><th>IP : Puerto</th><th>Mapa</th><th>Jugadores</th><th>Estado</th></tr></thead>
+              <tbody id="sv-rows"><tr><td class="none" colspan="5">Cargando...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" id="sv-admin" hidden>
+          <h3>Administrar servidores</h3>
+          <p class="help">Un servidor por línea: <b>Nombre | IP:puerto</b> (si no pones puerto se usa 12203). Ejemplo: <code>Servidor Chile #1 | 200.1.2.3:12203</code></p>
+          <textarea id="sv-text" rows="6" maxlength="4000" style="width:100%;box-sizing:border-box" spellcheck="false"></textarea>
+          <p><button type="button" id="sv-save">Guardar lista</button> <span class="help" id="sv-msg"></span></p>
+        </div>
+      </section>
+
+      <!-- Reglas del ladder -->
+      <section class="view" id="view-reglas" aria-label="Reglas del ladder" hidden>
+        <div class="card rules">
+          <h3>Reglamento del Ladder</h3>
+          <h4>1. Conceptos Generales del Sistema Ladder</h4>
+          <p>El sistema Ladder es una competencia donde los clanes buscan escalar posiciones desafiando y jugando contra otros clanes. Todos los clanes inscritos en el sistema de Mohaax.cl dan por comprendidas y asumidas la totalidad de estas reglas. Cualquier reclamo, denuncia o situación se canaliza exclusivamente a través del líder del clan en la Asamblea de Líderes. El Staff hará cumplir las normas pero no actuará como mediador por canales como TS o mensajes privados.</p>
+          <h4>2. Uso del TeamSpeak Oficial</h4>
+          <ul>
+            <li>Dirección IP oficial de TS3: mohaa (obligatorio para partidos Ladder).</li>
+            <li>El nombre de usuario debe coincidir con el registrado en el sistema Ladder.</li>
+            <li>No se tolerarán insultos hacia miembros del Staff ni a otros usuarios. Estos actos podrán acarrear sanciones como suspensión de participación en torneos por un tiempo determinado.</li>
+            <li>Está prohibido el uso de avatares ofensivos o inapropiados.</li>
+            <li>Se prohíbe cualquier tipo de spam.</li>
+          </ul>
+          <h4>3. No-Rankeado / Rankeado</h4>
+          <p>Todo clan nuevo comienza como No Rankeado. Para aparecer en el ranking debe ganar un partido válido. El paso a rankeado es automático tras la primera victoria.</p>
+          <h4>4. Avanzando en el Ladder</h4>
+          <p>Si un equipo le gana a uno mejor posicionado, sube la mitad de los puestos que los separaban. Ejemplo: si el #12 le gana al #6, sube al #9. El reporte debe hacerse en un plazo máximo de 24 horas. Cualquier conflicto relacionado será tratado en la Asamblea de Líderes.</p>
+          <h4>5. Bajando en el Ladder</h4>
+          <p>Un equipo pierde su posición si cae frente al que está justo debajo de él. También puede bajar si otros equipos más abajo logran victorias contra clanes mejor rankeados.</p>
+          <h4>6. Play Off y otros aspectos</h4>
+          <p>Al finalizar una etapa (aproximadamente cada 6 meses), se realizará un torneo de Play Off. La cantidad de clanes que acceden dependerá del número de equipos activos y se definirá en su momento. Solo pueden participar equipos y jugadores registrados antes del cierre oficial de la etapa. Cada Play Off tiene su propia organización y reglas específicas.</p>
+          <h4>7. Cuentas y Datos</h4>
+          <p>Cada jugador debe mantener su cuenta con datos de Volute y su correo actualizado. Esta información es personal e intransferible. La responsabilidad recae en el jugador y el líder del clan.</p>
+          <h4>8. Clanes, Nick e ID</h4>
+          <p>Los nombres de clanes y nicks no pueden tener contenido ofensivo, religioso, político, ni ser similares a otros jugadores. Los jugadores no pueden compartir cuentas ni usar IDs que no les pertenezcan. Los cambios de nick o clan son permitidos sin necesidad de aprobación previa. Cualquier referencia a la validación de identidades o cambios se hace directamente en mohaax.cl/ladder.</p>
+          <h4>10. Usuarios múltiples</h4>
+          <p>Un jugador no puede pertenecer a más de un clan.</p>
+          <h4>11. Organización de Partidos</h4>
+          <p>Los partidos se pueden pactar por cualquier medio (Whatsapp, TS, Discord, etc.). Es responsabilidad de cada clan verificar que su rival está debidamente inscrito y habilitado.</p>
+          <h4>12. Ladder, Ligas y Torneos</h4>
+          <p>Todos los partidos organizados por Mohaax.cl serán válidos por Ladder. Se exige un comportamiento respetuoso en todo momento.</p>
+          <h4>13. Reglas del Partido</h4>
+          <ul>
+            <li>Solo se podrán usar los mapas oficiales disponibles en: mohaacl.</li>
+            <li>Se juega un total de 2 mapas. Gana el equipo que más rondas acumule por mapa.</li>
+            <li>Antes de cada partido, la consola debe anunciar que es válido por Ladder y los equipos deben confirmar con "vale ladder".</li>
+            <li>El clan que pierda elige primero su mapa.</li>
+            <li>El clan que gana elige segundo y escoge lado.</li>
+            <li>El bash es válido como inicio oficial del ladder, y cualquier disparo en bash fuera de modalidad "bash 100" se sanciona como pérdida automática del bash.</li>
+            <li>En caso de empate, los clanes pueden definir si juegan un tercer mapa.</li>
+            <li>El clan perdedor debe reportar dentro de 24 horas. Si no lo hace, el clan ganador puede presentar el caso en la Asamblea de Líderes adjuntando pruebas.</li>
+            <li>Jugar sin Volute no permite reclamos posteriores.</li>
+            <li>Rocket está prohibido.</li>
+            <li>Los insultos pueden ser sancionados si se presentan pruebas.</li>
+          </ul>
+          <h4>14. Problemas durante los Partidos</h4>
+          <ul>
+            <li>Si un equipo debe abandonar un partido, se considera derrota.</li>
+            <li>Desconexiones deben resolverse de mutuo acuerdo.</li>
+            <li>No se puede jugar con menos de 4 jugadores (en formatos 5v5 o 6v6), excepto si el jugador vuelve antes de 5 rondas.</li>
+            <li>Galleteo, uso de cheats, o suplantación son sancionados con derrota y castigos adicionales.</li>
+            <li>Los reinicios por caída del server o interrupciones deben acordarse entre clanes y documentarse.</li>
+            <li>El uso de granadas bug no está permitido. En caso de activarse accidentalmente, el equipo deberá compensar eliminando únicamente la misma cantidad de jugadores que hayan sido afectados en el equipo contrario, con el fin de mantener el equilibrio del punto. Si se detecta un uso reiterado o abusivo de esta práctica, y se concluye que fue realizado de forma intencional, el equipo infractor será sancionado con la pérdida automática del partido.</li>
+          </ul>
+          <h4>15. Derrota por Retiro</h4>
+          <p>Si un clan queda con menos jugadores del mínimo y no vuelve en 5 minutos, pierde automáticamente. Se consideran retiros cuando hay abandonos voluntarios. Si un clan es sacado del server, debe adjuntar pruebas en Asamblea.</p>
+          <h4>16. Reporte de Partido</h4>
+          <ul>
+            <li>El clan perdedor debe reportar el resultado dentro de 24 horas.</li>
+            <li>Si no lo hace, el clan ganador puede reportar en Asamblea de Líderes con pruebas (4 screenshots mínimas).</li>
+          </ul>
+          <h4>17. Reportes Falsos</h4>
+          <p>Se sanciona a los clanes que reporten partidos no jugados. Ambos equipos serán dejados unranked si se detecta fraude.</p>
+          <h4>18. Comportamiento</h4>
+          <p>Todo miembro debe mantener respeto con otros jugadores y el Staff. Las denuncias por insultos deben hacerse en Asamblea con pruebas.</p>
+          <h4>20. Otras reglas</h4>
+          <p>Toda nueva normativa publicada en mohaax.cl es válida desde su fecha de publicación.</p>
+          <h4>21. Clan Puntero</h4>
+          <p>El clan #1 debe jugar al menos una vez por semana con el clan #2. La falta puede generar pérdida del puesto previa revisión de Asamblea.</p>
+          <h4>27. Anticheat (Volute)</h4>
+          <ul>
+            <li>El uso de Volute es obligatorio.</li>
+            <li>El jugador debe ingresar a los servidores con Volute activo.</li>
+            <li>Cualquier jugador que use cheats será sancionado con baneo de 3 meses mínimo, sin derecho a apelación.</li>
+            <li>Si un jugador sancionado por cheat es sorprendido jugando, el clan pierde el ladder y desciende 5 puestos.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Medal of Honor: temporadas (ladders) -->
+      <section class="view" id="view-mohaa" aria-label="Medal of Honor" hidden>
+        <table class="gameinfo"><tr><th>Medal of Honor</th><td>Juego ambientado en la II Guerra Mundial</td></tr></table>
+        <div class="card">
+          <h3>Ladders</h3>
+          <ul class="seasons" id="mo-seasons"><li class="none">Cargando...</li></ul>
+        </div>
+      </section>
+
+      <!-- Temporada cerrada: tabla final y copas -->
+      <section class="view" id="view-temporada" aria-label="Temporada" hidden>
+        <div class="card">
+          <h3 id="ts-title">Temporada</h3>
+          <p class="help" id="ts-info"></p>
+          <div class="scroll">
+            <table class="dtable teams">
+              <thead><tr><th>Lugar</th><th>Clan</th><th>Ganados</th><th>Perdidos</th><th>Gan%</th><th>Copa</th></tr></thead>
+              <tbody id="ts-rows"><tr><td class="none" colspan="6">Cargando...</td></tr></tbody>
+            </table>
+          </div>
+          <div class="resend"><a href="#mohaa">Volver a Ladders</a></div>
+        </div>
+      </section>
+
+      <!-- Administración de la comunidad -->
+      <section class="view" id="view-admin" aria-label="Administración" hidden>
+        <div class="card" id="ad-deny">
+          <h3>Administración</h3>
+          <p class="help">Esta sección es solo para el administrador de la comunidad.</p>
+        </div>
+        <div id="ad-main" hidden>
+          <div class="card" id="ad-active" hidden>
+            <h3>Temporada activa</h3>
+            <table class="dtable kv">
+              <tr><td>Ladder</td><td id="ad-name">—</td></tr>
+              <tr><td>Inicio</td><td id="ad-start">—</td></tr>
+              <tr><td>Cierre programado</td><td id="ad-end">—</td></tr>
+            </table>
+            <form class="match-form" id="ad-deadline-form" novalidate>
+              <h4 class="sub">Plazo de cierre</h4>
+              <div class="row"><input type="date" id="ad-deadline" aria-label="Fecha de cierre"> <button type="submit">Guardar plazo</button> <button type="button" id="ad-nodeadline" class="linkbtn">Quitar plazo</button></div>
+              <div class="help">La temporada se cierra sola al terminar ese día. Sin plazo, la cierras tú con el botón.</div>
+            </form>
+            <div class="row"><button type="button" id="ad-close">Cerrar temporada ahora</button></div>
+            <div class="help">Al cerrar: se guarda la tabla final, los 3 primeros reciben copa (oro, plata y bronce), se cancelan los reportes pendientes y el ladder vuelve a cero.</div>
+          </div>
+          <div class="signup" id="ad-create" hidden>
+            <h3>Crear temporada</h3>
+            <form id="ad-form" novalidate>
+              <div class="fields">
+                <div class="head">Datos de la temporada</div>
+                <label class="r0" for="ad-f-name">Nombre</label>
+                <div class="cell r0"><input type="text" id="ad-f-name" maxlength="40" placeholder="Objetivo 2026" autocomplete="off"></div>
+                <label class="r1" for="ad-f-stage">Etapa</label>
+                <div class="cell r1"><input type="text" id="ad-f-stage" maxlength="30" placeholder="Etapa I" autocomplete="off"></div>
+                <label class="r0" for="ad-f-end">Cierre (opcional)</label>
+                <div class="cell r0"><input type="date" id="ad-f-end"></div>
+              </div>
+              <div class="actions"><button type="submit">Crear temporada</button></div>
+            </form>
+          </div>
+          <div class="status-line" id="ad-msg" role="status"></div>
+        </div>
+      </section>
+
+      <!-- Panel de administración -->
+      <section class="view" id="view-panel" aria-label="Administración Ladder" hidden></section>
+
+      <!-- Lista de mapas -->
+      <section class="view" id="view-mapas" aria-label="Lista de mapas" hidden>
+        <div class="mapsbox">
+          <div class="mb-bar"><span>&laquo;</span></div>
+          <h3><span id="mp-title">Objetivo 2026 • Etapa II</span> Maps <a href="#ladder" class="mp-all">[All Ladders]</a></h3>
+          <ul id="mp-list"><li class="none">Cargando...</li></ul>
+          <div class="mb-foot"></div>
+        </div>
+      </section>
+
+      <!-- Lista de clanes -->
+      <section class="view" id="view-clanes" aria-label="Lista de clanes" hidden>
+        <div class="card">
+          <h3>Ladder Freeze Tag - Ladder Team Database</h3>
+          <div class="scroll">
+            <table class="dtable teams">
+              <thead><tr><th>Nombre clan</th><th>ID para reportar</th><th>Tag</th><th>Ingresó en</th><th>Email</th><th>Website</th><th>Ladder</th></tr></thead>
+              <tbody id="cs-rows"><tr><td class="none" colspan="7">Cargando...</td></tr></tbody>
+              <tfoot><tr><td colspan="7" class="numpager" id="cs-pager"></td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="card searchbox">
+          <h3>Buscar en Comunidad Ladder Freeze Tag</h3>
+          <form class="search-form" id="cs-search">
+            <input type="text" id="cs-q" maxlength="40" aria-label="Texto a buscar" autocomplete="off">
+            <select id="cs-type" aria-label="Buscar en">
+              <option value="1">Clanes</option>
+              <option value="2">Jugadores</option>
+            </select>
+            <button type="submit">Buscar</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Lista de jugadores -->
+      <section class="view" id="view-jugador" aria-label="Perfil del jugador" hidden>
+        <div id="pj-missing" class="card" hidden><h3>Perfil del jugador</h3><p class="help" id="pj-err">Cargando…</p></div>
+        <div id="pj-body">
+          <div class="card">
+            <h3>Información de Jugador</h3>
+            <div class="profile-top">
+              <table class="dtable kv">
+                <tr><th colspan="2">Información de Jugador</th></tr>
+                <tr><td>ID</td><td id="pj-id">—</td></tr>
+                <tr><td>Nombre</td><td id="pj-alias">—</td></tr>
+                <tr><td>Fecha de Ingreso</td><td id="pj-joined">—</td></tr>
+                <tr><td>Victorias</td><td id="pj-w">0</td></tr>
+                <tr><td>Derrotas</td><td id="pj-l">0</td></tr>
+                <tr><td><img class="soc-ic" src="/img/ic-steam.svg" alt="" width="14" height="14"> Steam</td><td id="pj-steam"></td></tr>
+                <tr><td><img class="soc-ic" src="/img/ic-discord.svg" alt="" width="14" height="14"> Discord</td><td id="pj-discord"></td></tr>
+                <tr><td><img class="soc-ic" src="/img/ic-twitch.svg" alt="" width="14" height="14"> Twitch</td><td id="pj-twitch"></td></tr>
+                <tr><td><img class="soc-ic" src="/img/ic-youtube.svg" alt="" width="14" height="14"> YouTube</td><td id="pj-youtube"></td></tr>
+                <tr id="pj-mail-row" hidden><td colspan="2" class="c">Email Player <a id="pj-mail" href="#">&#9993;</a></td></tr>
+                <tr id="pj-admin-row" hidden><td colspan="2" class="c"><a id="pj-admin" href="#">Ver en Administración Ladder</a></td></tr>
+              </table>
+              <table class="dtable">
+                <tr><th>Player Logo</th></tr>
+                <tr><td><div class="logo-box" id="pj-logo">Sin logo</div></td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Información de Equipo</h3>
+            <div class="scroll">
+              <table class="dtable teams">
+                <thead><tr><th>Nombre del Clan</th><th>Ladder</th><th>Status</th><th>Fecha de Ingreso</th></tr></thead>
+                <tbody id="pj-teams"><tr><td class="none" colspan="4">No pertenece a ningún clan.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" id="pj-sanctions-card">
+            <h3>Sanciones</h3>
+            <div class="scroll">
+              <table class="dtable teams">
+                <thead><tr><th>Fecha</th><th>Sanción</th><th>Motivo</th><th>Denuncia</th><th>Tiempo</th><th>Estado</th></tr></thead>
+                <tbody id="pj-sanctions"><tr><td class="none" colspan="6">Sin sanciones.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <p><a href="#jugadores">« Volver a la lista de jugadores</a></p>
+      </section>
+
+      <section class="view" id="view-online" aria-label="Jugadores en línea" hidden>
+        <div class="loginbox" id="on-login" hidden>
+          <div class="lb-bar">&laquo;</div>
+          <div class="lb-title">No estás logeado</div>
+          <form id="on-form" novalidate>
+            <div class="lb-row"><label for="on-id">ID:</label><input type="text" id="on-id" autocomplete="username"></div>
+            <div class="lb-row"><label for="on-pw">Password:</label><input type="password" id="on-pw" autocomplete="current-password"></div>
+            <div class="lb-btn"><button type="submit">Login</button></div>
+            <div class="lb-msg" id="on-msg" role="status"></div>
+          </form>
+          <div class="lb-foot"></div>
+        </div>
+        <div class="card" id="on-card">
+          <h3>Jugadores en línea</h3>
+          <div class="scroll">
+            <table class="dtable teams">
+              <thead><tr><th>Jugador</th><th>Clan</th><th>Rango</th><th>Última señal</th></tr></thead>
+              <tbody id="on-rows"><tr><td class="none" colspan="4">Cargando…</td></tr></tbody>
+            </table>
+          </div>
+          <p class="help">Jugadores con sesión iniciada que tienen el sitio abierto (se actualiza cada minuto).</p>
+        </div>
+      </section>
+
+      <section class="view" id="view-jugadores" aria-label="Lista de jugadores" hidden>
+        <div class="card">
+          <h3>Ladder Freeze Tag - Ladder Player Database</h3>
+          <div class="scroll">
+            <table class="dtable teams">
+              <thead><tr><th>Nombre del jugador</th><th>ID</th><th>Ingresó en</th></tr></thead>
+              <tbody id="pl-rows"><tr><td class="none" colspan="3">Cargando...</td></tr></tbody>
+              <tfoot><tr><td colspan="3" class="numpager" id="pl-pager"></td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="card searchbox">
+          <h3>Buscar en Ladder Freeze Tag</h3>
+          <form class="search-form" id="pl-search">
+            <input type="text" id="pl-q" maxlength="40" aria-label="Texto a buscar" autocomplete="off">
+            <select id="pl-type" aria-label="Buscar en">
+              <option value="2">Jugadores</option>
+              <option value="1">Clanes</option>
+            </select>
+            <button type="submit">Buscar</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Validar cuenta -->
+      <section class="view" id="view-validar" aria-label="Validar cuenta" hidden>
+        <div class="card searchbox">
+          <h3>Validar cuenta</h3>
+          <p class="help">Al crear tu cuenta te enviamos un código de 6 dígitos a tu email. Escríbelo aquí junto con tu nombre de jugador. El código vence en 48 horas.</p>
+          <form class="search-form vform" id="verify">
+            <input type="text" id="vf-alias" maxlength="40" aria-label="Nombre de jugador" placeholder="Nombre de jugador" autocomplete="username">
+            <input type="text" id="vf-code" maxlength="6" inputmode="numeric" pattern="[0-9]*" aria-label="Código de 6 dígitos" placeholder="Código" autocomplete="one-time-code">
+            <button type="submit">Validar</button>
+          </form>
+          <div class="search-result" id="vf-status" role="status"></div>
+          <div class="resend"><button type="button" id="vf-resend" class="linkbtn">Enviar un código nuevo</button></div>
+        </div>
+      </section>
+
+      <!-- Buscar -->
+      <section class="view" id="view-buscar" aria-label="Buscar" hidden>
+        <div class="card searchbox">
+          <h3>Buscar en la comunidad</h3>
+          <form class="search-form" id="search">
+            <input type="text" id="q" maxlength="50" aria-label="Texto a buscar" autocomplete="off">
+            <select id="qtype" aria-label="Buscar en">
+              <option value="1">Clanes</option>
+              <option value="2">Jugadores</option>
+            </select>
+            <button type="submit">Buscar</button>
+          </form>
+          <div class="search-result" id="search-result" role="status"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<footer class="foot">
+  <div>Comunidad MOHAA CL ©2026.</div>
+</footer>
+
+<script src="/admin.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
