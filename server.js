@@ -533,6 +533,14 @@ const SMTP = process.env.SMTP_HOST ? {
 } : null;
 // Administradores de la comunidad: alias separados por coma en la variable ADMIN_ALIAS
 const ADMINS = new Set((process.env.ADMIN_ALIAS || '').split(',').map((x) => x.trim().toLowerCase()).filter(Boolean));
+const ADMIN_SETUP_TOKEN = process.env.ADMIN_SETUP_TOKEN || '';
+function authorizedAdminRegistration(alias, token) {
+  if (!ADMINS.has(String(alias).toLowerCase())) return true;
+  if (ADMIN_SETUP_TOKEN.length < 32 || typeof token !== 'string') return false;
+  const supplied = Buffer.from(token);
+  const expected = Buffer.from(ADMIN_SETUP_TOKEN);
+  return supplied.length === expected.length && crypto.timingSafeEqual(supplied, expected);
+}
 let panel = null; // panel de administración (admin.js), se inicia antes de las rutas
 const isAdmin = (p) => !!p && !!panel && panel.can(p, 'seasons.manage');
 const seasonLabel = (name, stage) => (name ? name + (stage ? ' • ' + stage : '') : '');
@@ -744,6 +752,10 @@ async function handleApi(req, res, pathname) {
     const v = validateRegistration(body);
     if (v.error) return sendJson(res, 400, { error: v.error });
     const d = v.value;
+
+    if (!authorizedAdminRegistration(d.alias, body.adminSetupToken)) {
+      return sendJson(res, 403, { error: 'Este alias está reservado. Solicita al responsable el código de alta administrativa.' });
+    }
 
     if (q.aliasExists.get(d.alias)) return sendJson(res, 409, { error: 'Ese nombre ya está en uso.' });
     if (q.emailExists.get(d.email)) return sendJson(res, 409, { error: 'Ese email ya está registrado.' });
