@@ -74,6 +74,8 @@ Un hosting de páginas estáticas (como GitHub Pages) no sirve, porque no ejecut
 ## Temporadas (ladders), administrador y copas
 
 - **Administrador:** es el jugador (o jugadores, separados por coma) cuyo alias pongas en la variable `ADMIN_ALIAS`. En Windows, en `INICIAR.bat` quita el `REM` de la línea `set ADMIN_ALIAS=...` y escribe tu alias. Verá el menú **Administración**.
+- **Alta segura del administrador:** al registrar un alias incluido en `ADMIN_ALIAS`, se exige `ADMIN_SETUP_TOKEN` (secreto de al menos 32 caracteres) en el campo «Código de alta administrativa». Los demás jugadores dejan ese campo vacío. Si el alias ya existe, confirma que pertenece a la persona correcta antes de habilitar privilegios; cambiar `ADMIN_ALIAS` no transfiere la propiedad de la cuenta.
+- **Base nueva:** `node restaurar.js` falla si no existe `ladder.db` y no se puede recuperar un respaldo. Usa `ALLOW_EMPTY_DB=1` únicamente para inicializar una instalación nueva y vuelve a `0` después de crear la base y verificar su respaldo.
 - **Crear temporada:** nombre (ej. «Objetivo 2026»), etapa (ej. «Etapa I») y, si quieres, una fecha de cierre. Solo puede haber una activa. **Sin temporada activa no se pueden reportar partidos.**
 - **Cerrar:** automáticamente al terminar el día del plazo, o cuando el administrador pulse «Cerrar temporada ahora». Se guarda la tabla final, se cancelan los reportes pendientes y el ladder vuelve a cero (los clanes y sus miembros se mantienen).
 - **Copas:** los 3 primeros de cada temporada reciben copa de oro, plata y bronce. Se ven en el perfil del clan, en la tabla final de la temporada y en la lista de ladders (menú **Medal of Honor**).

@@ -26,6 +26,10 @@ Con disco: solo se conserva lo que esté bajo la ruta del disco (`/var/data`), s
 - **Restaurar a mano:** descomprime el `.gz`, renombra a `ladder.db`, déjalo en la carpeta de datos con el servidor detenido y arranca.
 
 ## 2. Pasos de despliegue (plan recomendado)
+**Alta administrativa segura:** `ADMIN_ALIAS` reserva el nombre de usuario y requiere `ADMIN_SETUP_TOKEN` (cadena aleatoria de 32 caracteres como mínimo) al registrarlo por primera vez. El administrador introduce ese valor en el campo «Código de alta administrativa». No publiques ni compartas ese secreto. Si el alias ya estaba registrado antes de configurar esta protección, comprueba manualmente que la cuenta realmente pertenece al administrador: no basta con cambiar la variable.
+
+**Primer arranque sin datos:** con `DATA_DIR` vacío, el proceso se detiene por seguridad si no hay respaldo recuperable. Solo para crear una base nueva, configura temporalmente `ALLOW_EMPTY_DB=1`, arranca, registra el administrador y genera un respaldo verificado. Después vuelve a `ALLOW_EMPTY_DB=0` y reinicia. No dejes habilitado ese permiso en producción; un error de restauración debe detener el despliegue, no crear una base vacía.
+
 1. **Cuenta y repositorio:** crea un repositorio **privado** en GitHub y sube el contenido de `ladder-server/` (sin la carpeta `data/`). Copia `subir-a-render/render.yaml` a la raíz del repositorio.
 2. **Copia externa (hazlo antes):** crea un bucket (R2 o B2) y una llave de acceso con permiso de lectura y escritura solo a ese bucket.
 3. **Render:** New + → **Blueprint** → elige el repositorio → te pedirá `ADMIN_ALIAS` y las 4 variables `BACKUP_S3_*`.

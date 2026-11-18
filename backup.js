@@ -88,11 +88,23 @@ async function restoreIfMissing() {
   const dbFile = path.join(dataDir(), 'ladder.db');
   if (fs.existsSync(dbFile)) return 'ya-existe';
   const cfg = s3cfg();
-  if (!cfg) return 'sin-respaldo-externo';
+  const allowNew = process.env.ALLOW_EMPTY_DB === '1';
+  if (!cfg) {
+    if (allowNew) return 'base-nueva-autorizada';
+    throw new Error('No existe ladder.db ni un respaldo externo. Para iniciar una instalación nueva, configura temporalmente ALLOW_EMPTY_DB=1.');
+  }
   fs.mkdirSync(dataDir(), { recursive: true });
   let gz;
-  try { gz = await s3req(cfg, 'GET', cfg.prefix + 'ladder-latest.sqlite.gz'); } catch (e) { return 'sin-respaldo: ' + e.message; }
-  fs.writeFileSync(dbFile, zlib.gunzipSync(gz));
+  try { gz = await s3req(cfg, 'GET', cfg.prefix + 'ladder-latest.sqlite.gz'); }
+  catch (e) {
+    if (allowNew && e.message === 'S3 GET 404') return 'base-nueva-autorizada';
+    throw new Error('No se pudo recuperar el respaldo externo: ' + e.message);
+  }
+  const restored = zlib.gunzipSync(gz);
+  // Un respaldo corrupto no debe convertirse en una base de datos vacía.
+  if (restored.subarray(0, 16).toString() !== 'SQLite format 3\0') throw new Error('El respaldo no contiene una base SQLite válida.');
+  fs.writeFileSync(dbFile + '.restore-tmp', restored, { flag: 'wx' });
+  fs.renameSync(dbFile + '.restore-tmp', dbFile);
   return 'restaurada';
 }
 

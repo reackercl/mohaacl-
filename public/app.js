@@ -330,7 +330,8 @@
     say("Creando tu cuenta...", "");
     api("/api/register", {
       alias: v("su-alias"), password: document.getElementById("su-pass").value, email: v("su-mail"),
-      logo: v("su-logo"), steam: v("su-steam"), discord: v("su-discord"), twitch: v("su-twitch"), youtube: v("su-youtube"), age13: true
+      logo: v("su-logo"), steam: v("su-steam"), discord: v("su-discord"), twitch: v("su-twitch"), youtube: v("su-youtube"), age13: true,
+      adminSetupToken: document.getElementById("su-admin-token").value
     }).then(function (r) {
       suBusy = false;
       if (r.player) {

@@ -19,6 +19,10 @@ services:
         value: "1"
       - key: ADMIN_ALIAS
         sync: false
+      - key: ADMIN_SETUP_TOKEN
+        sync: false
+      - key: ALLOW_EMPTY_DB
+        value: "0"
       - key: BACKUP_EVERY_HOURS
         value: "1"
       - key: BACKUP_S3_ENDPOINT
