@@ -1,0 +1,33 @@
+name: MOHAA QA
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22.13.0'
+      - name: Syntax checks
+        run: |
+          node --check server.js
+          node --check backup.js
+          node --check restaurar.js
+          node --check tests/production-readiness.test.js
+          bash -n subir-a-oracle/instalar.sh
+      - name: Safe regression tests (no secrets)
+        env:
+          BACKUP_S3_ENDPOINT: ''
+          BACKUP_S3_BUCKET: ''
+          BACKUP_S3_KEY_ID: ''
+          BACKUP_S3_SECRET: ''
+        run: npm test

@@ -9,6 +9,10 @@ if [ -z "$DOMINIO" ] || [ -z "$ADMIN" ]; then
   echo "Uso: sudo bash instalar.sh tu-dominio.duckdns.org alias_del_administrador"; exit 1
 fi
 if [ "$(id -u)" -ne 0 ]; then echo "Ejecuta con sudo."; exit 1; fi
+# La identidad de administrador se guarda en un EnvironmentFile; no admitir saltos de linea ni sintaxis de systemd.
+if ! [[ "$ADMIN" =~ ^[a-zA-Z0-9_-]{3,24}$ ]]; then
+  echo "El alias de administrador debe contener entre 3 y 24 caracteres: letras, numeros, _ o -."; exit 1
+fi
 
 ORIGEN="$(cd "$(dirname "$0")/.." && pwd)"
 DESTINO=/opt/ladder
@@ -37,6 +41,22 @@ tar -C "$ORIGEN" --exclude=./data --exclude=./subir-a-oracle -cf - . | tar -C "$
 chown -R ladder:ladder "$DESTINO" "$DATOS"
 
 echo "==> 3/6 Creando el servicio (se inicia solo y se reinicia si falla)"
+# El codigo de alta administrativa nunca se escribe en el repositorio ni en el unit file.
+# Conservarlo en instalaciones sucesivas evita rotarlo accidentalmente.
+SECRETS_DIR=/etc/ladder
+SECRETS_FILE=$SECRETS_DIR/bootstrap.env
+install -d -o root -g root -m 0700 "$SECRETS_DIR"
+TOKEN=""
+if [ -f "$SECRETS_FILE" ]; then
+  TOKEN="$(sed -n 's/^ADMIN_SETUP_TOKEN=//p' "$SECRETS_FILE" | head -n 1)"
+fi
+if ! [[ "$TOKEN" =~ ^[0-9a-f]{64}$ ]]; then
+  TOKEN="$(node -e 'process.stdout.write(require("node:crypto").randomBytes(32).toString("hex"))')"
+fi
+TMP="$(mktemp "$SECRETS_DIR/.bootstrap.XXXXXX")"
+chmod 0600 "$TMP"
+printf 'ADMIN_ALIAS=%s\nADMIN_SETUP_TOKEN=%s\n' "$ADMIN" "$TOKEN" > "$TMP"
+mv -f "$TMP" "$SECRETS_FILE"
 cat > /etc/systemd/system/ladder.service <<EOF
 [Unit]
 Description=Ladder MOHAA Chile
@@ -49,7 +69,7 @@ Environment=PORT=3000
 Environment=DATA_DIR=$DATOS
 Environment=TRUST_PROXY=1
 Environment=COOKIE_SECURE=1
-Environment=ADMIN_ALIAS=$ADMIN
+EnvironmentFile=/etc/ladder/bootstrap.env
 ExecStart=/usr/bin/node server.js
 Restart=always
 RestartSec=5
@@ -93,4 +113,7 @@ echo "Listo. Estado del servicio:"
 systemctl --no-pager --lines=3 status ladder || true
 echo
 echo "Abre https://$DOMINIO (el certificado puede tardar un minuto)."
+echo "Para registrar el alias $ADMIN, consulta PRIVADAMENTE el codigo de alta:"
+echo "  sudo sed -n 's/^ADMIN_SETUP_TOKEN=//p' $SECRETS_FILE"
+echo "No compartas ese codigo ni lo pegues en capturas o chats."
 echo "Si no abre: revisa que el dominio apunte a la IP de esta VM y que el puerto 80/443 estén abiertos en Oracle."
