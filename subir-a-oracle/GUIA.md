@@ -42,8 +42,14 @@ sudo bash instalar.sh ladder-mohaa.duckdns.org TU_ALIAS_DE_ADMIN
 
 ## 5. Primer uso
 1. Abre `https://tu-dominio.duckdns.org`.
-2. Regístrate con el alias de administrador que pusiste arriba: tendrás el panel de Administración.
-3. Entra a "Administrar Links", "Server online" y "Descargas" para cargar el contenido.
+2. El instalador crea un codigo aleatorio de alta administrativa y lo guarda con permisos restringidos (solo root) en /etc/ladder/bootstrap.env. Para verlo **privadamente** dentro de la VM (no lo pegues en Discord, capturas ni GitHub), ejecuta:
+
+       sudo sed -n 's/^ADMIN_SETUP_TOKEN=//p' /etc/ladder/bootstrap.env
+
+3. Regístrate con el alias de administrador usado al instalar. En «Codigo de alta administrativa» introduce ese codigo. Tu contraseña de usuario es **otra** contraseña distinta, elegida al registrarte.
+4. Comprueba que aparece el panel de Administración. Entra a "Administrar Links", "Server online" y "Descargas" para cargar el contenido.
+
+El instalador conserva el codigo si se ejecuta otra vez; no lo rota en cada actualizacion. Nunca lo guardes en archivos del repositorio. El instalador acepta alias de 3 a 24 caracteres compuestos por letras, numeros, guion o guion bajo.
 
 ## Cosas útiles
 - Ver si funciona: `sudo systemctl status ladder`
