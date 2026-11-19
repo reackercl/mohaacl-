@@ -103,8 +103,18 @@ async function restoreIfMissing() {
   const restored = zlib.gunzipSync(gz);
   // Un respaldo corrupto no debe convertirse en una base de datos vacía.
   if (restored.subarray(0, 16).toString() !== 'SQLite format 3\0') throw new Error('El respaldo no contiene una base SQLite válida.');
-  fs.writeFileSync(dbFile + '.restore-tmp', restored, { flag: 'wx' });
-  fs.renameSync(dbFile + '.restore-tmp', dbFile);
+  // Cada intento usa un nombre nuevo: un temporal abandonado no bloquea el siguiente arranque.
+  const temporary = path.join(dataDir(), '.ladder-restore-' + process.pid + '-' + crypto.randomBytes(8).toString('hex') + '.tmp');
+  try {
+    fs.writeFileSync(temporary, restored, { flag: 'wx', mode: 0o600 });
+    fs.renameSync(temporary, dbFile);
+  } finally {
+    // Si una escritura o el rename fallan, no dejamos un temporal de este intento.
+    try { fs.unlinkSync(temporary); }
+    catch (e) {
+      if (e.code !== 'ENOENT') console.error('No se pudo limpiar el temporal de restauración:', e.message);
+    }
+  }
   return 'restaurada';
 }
 
